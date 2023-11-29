@@ -1,47 +1,24 @@
 #include "binary_trees.h"
+
 /**
- * binary_tree_height - Measure the height of a binary tree.
+ * binary_tree_depth - Measure the depth of a node in a binary tree.
  *
- * @tree: A pointer to the root node of the tree to measure.
+ * @tree: A pointer to the node to measure the depth.
  *
- * Return: The height of the binary tree.
+ * Return: The depth of the node in the binary tree.
  */
-size_t binary_tree_height(const binary_tree_t *tree)
+size_t binary_tree_depth(const binary_tree_t *tree)
 {
-	int height_left, height_right;
+	int depht_count;
 
 	if (tree == NULL)
 		return (0);
 
-	if (tree->left == NULL && tree->right == NULL)
+	if (tree->parent == NULL)
 		return (0);
 
-	height_left = binary_tree_height(tree->left) + 1;
-	height_right = binary_tree_height(tree->right) + 1;
-
-	if (height_left > height_right)
-		return (height_left);
-	return (height_right);
-}
-/**
- * binary_tree_balance - Measures the balance factor of a binary tree
- *
- * @tree: Pointer to the root node of the tree to measure balance factor
- *
- * Return: Balance factor of the binary tree, 0 if tree is NULL
- */
-int binary_tree_balance(const binary_tree_t *tree)
-{
-	int left = 0;
-	int right = 0;
-
-	if (tree == NULL)
-		return (0);
-	if (tree->left)
-		left = binary_tree_height(tree->left) + 1;
-	if (tree->right)
-		right = binary_tree_height(tree->right) + 1;
-	return (left - right);
+	depht_count = binary_tree_depth(tree->parent) + 1;
+	return (depht_count);
 }
 
 /**
@@ -67,5 +44,5 @@ int binary_tree_is_perfect(const binary_tree_t *tree)
     if (tree == NULL)
         return 0;
 
-    return (binary_tree_is_full(tree) && abs(binary_tree_balance(tree)) < 2);
+    return binary_tree_is_full(tree) && binary_tree_depth(tree->left) == binary_tree_depth(tree->right);
 }
